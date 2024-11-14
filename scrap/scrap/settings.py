@@ -13,8 +13,8 @@ SPIDER_MODULES = ["scrap.spiders"]
 NEWSPIDER_MODULE = "scrap.spiders"
 
 
-FEED_FORMAT = "xml"
-FEED_URI = "dataset.xml"
+FEED_FORMAT = "csv"
+FEED_URI = "dataset.csv"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "scrap (+http://www.yourdomain.com)"

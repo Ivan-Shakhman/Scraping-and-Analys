@@ -11,3 +11,5 @@ class ScrapItem(scrapy.Item):
     company = scrapy.Field()
     location = scrapy.Field()
     skills = scrapy.Field()
+    additional_info = scrapy.Field()
+    experience_required = scrapy.Field()

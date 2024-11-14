@@ -1,6 +1,6 @@
 # Scraping and data analysis
 
-The project collects data from various job search websites and analyzes the obtained information using the ELT cycle. The parser gathers data from DOU and categorizes the collected data by work experience.
+The project collects data from various job search websites and analyzes the obtained information.
 
 ## Features:
 - Collects data for Python developer vacancies from the work_ua website.

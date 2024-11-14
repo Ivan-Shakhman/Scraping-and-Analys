@@ -1,18 +1,19 @@
 import scrapy
-from scrap.items import ScrapItem  # Предполагается, что ScrapItem настроен корректно
+from scrap.items import ScrapItem
+
 
 class JobSpider(scrapy.Spider):
     name = "job_spider"
-    start_urls = [
-        "https://www.work.ua/jobs-python/?page=1",
-        "https://www.work.ua/jobs-python/?page=2",
-        "https://www.work.ua/jobs-python/?page=3"
-    ]
+    start_urls = ["https://www.work.ua/jobs-python/?page=1"]
 
     def parse(self, response):
         jobs = response.css("div.mb-lg h2 a::attr(href)").getall()
         for job in jobs:
             yield response.follow(job, self.parse_job)
+
+        next_page = response.css("li.circle-style.add-left-sm a::attr(href)").get()
+        if next_page:
+            yield response.follow(next_page, self.parse)
 
     def parse_job(self, response):
         item = ScrapItem()

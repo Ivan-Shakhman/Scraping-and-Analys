@@ -6,7 +6,7 @@ from scrap.items import ScrapItem
 
 
 def find_year(required_experience: str) -> int:
-    match = re.search(r'\d+', required_experience)
+    match = re.search(r"\d+", required_experience)
     return int(match.group())
 
 
@@ -26,15 +26,26 @@ class JobSpider(scrapy.Spider):
     def parse_job(self, response):
         item = ScrapItem()
         item["title"] = response.css("h1.my-0::text").get().strip()
-        item["company"] = response.css("li.text-indent a.inline span::text").get().strip()
-        item["location"] = response.css("li.text-indent::text").re_first(r"\s*(\S.*\S)\s*$").strip()
-        item["skills"] = [skill.strip() for skill in response.css("li.no-style span.ellipsis::text").getall()]
-        additional = response.xpath(
-            "//li[contains(@class, 'text-indent')]//span[contains(@class, 'glyphicon-tick')]/following-sibling::text()"
-        ).get().strip()
+        item["company"] = (
+            response.css("li.text-indent a.inline span::text").get().strip()
+        )
+        item["location"] = (
+            response.css("li.text-indent::text").re_first(r"\s*(\S.*\S)\s*$").strip()
+        )
+        item["skills"] = [
+            skill.strip()
+            for skill in response.css("li.no-style span.ellipsis::text").getall()
+        ]
+        additional = (
+            response.xpath(
+                "//li[contains(@class, 'text-indent')]//span[contains(@class, 'glyphicon-tick')]/following-sibling::text()"
+            )
+            .get()
+            .strip()
+        )
         additional = additional.split(".")
         for add in additional:
-            print("-"*100)
+            print("-" * 100)
             print(add)
             print("-" * 100)
             if "Досвід" in add:

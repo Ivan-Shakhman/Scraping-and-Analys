@@ -1,8 +1,12 @@
 from pathlib import Path
 import scrapy
 
-class SneakySpider(scrapy.Spider):
-    name = 'sneaky'
+import scrap.items
+from scrap import items
+
+
+class JobSpider(scrapy.Spider):
+    name = "job_spider"
 
     def start_requests(self):
         urls = [
@@ -14,7 +18,14 @@ class SneakySpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        page = response.url.split("/")[-2]
-        filename = f"sneaky_{page}.html"
-        Path(filename).write_bytes(response.body)
-        self.log(f"Saved {filename}")
+        jobs = response.css("div.mb-lg h2 a::attr(href)").getall()
+        for job in jobs:
+            yield response.follow(job, callback=self.parse_job)
+
+    def parse_job(self, response):
+        item = items.ScrapItem()
+        item["title"] = response.css("h1.my-0::text").get()
+        print("-" * 100)
+        print(item["title"])
+        print("-" * 100)
+        yield item

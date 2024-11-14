@@ -9,5 +9,5 @@ import scrapy
 class ScrapItem(scrapy.Item):
     title = scrapy.Field()
     company = scrapy.Field()
-    place = scrapy.Field()
+    location = scrapy.Field()
     skills = scrapy.Field()

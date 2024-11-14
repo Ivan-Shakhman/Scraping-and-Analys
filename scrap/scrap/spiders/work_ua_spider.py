@@ -25,8 +25,8 @@ class JobSpider(scrapy.Spider):
     def parse_job(self, response):
         item = items.ScrapItem()
         item["title"] = response.css("h1.my-0::text").get()
-        item["company"] = response.css(".li.text-indent a.inline span.strong-500::text").get()
-        print("-" * 100)
-        print(item["title"])
-        print("-" * 100)
+        item["company"] = response.css("li.text-indent a.inline span::text").get()
+        item["location"] = response.css("li.text-indent::text").re_first(r"\s*(\S.*\S)\s*$")
+        item["skills"] = response.css("li.no-style span.ellipsis::text").getall()
+
         yield item
